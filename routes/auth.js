@@ -13,14 +13,12 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
     try {
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             req.flash('error_msg', 'Email is already registered');
             return res.redirect('/auth/register');
         }
 
-        // Create new user
         const user = new User({ username, email, password });
         await user.save();
         req.flash('success_msg', 'You are now registered and can log in');
@@ -57,15 +55,5 @@ router.get('/logout', (req, res) => {
         res.redirect('/auth/login');
     });
 });
-
-// Profile Page (GET)
-router.get('/profile', (req, res) => {
-    if (!req.user) {
-        req.flash('error_msg', 'Please log in to view your profile');
-        return res.redirect('/auth/login');
-    }
-    res.render('profile', { user: req.user });
-});
-
 
 module.exports = router;

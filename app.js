@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const connectDB = require('./config/db');
+const path = require('path');
 require('dotenv').config();
 
 // Initialize app
@@ -16,8 +17,9 @@ connectDB();
 require('./config/passport', passport);
 
 // Middleware
-app.use(express.urlencoded({ extended: true })); // Parse form data
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploads folder
 app.set('view engine', 'ejs');
 
 // Session middleware
@@ -43,8 +45,13 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/', require('./routes/index'));
-app.use('/auth', require('./routes/auth')); // Mount auth routes
+const indexRoutes = require('./routes/index');
+const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
+
+app.use('/', indexRoutes);
+app.use('/auth', authRoutes);
+app.use('/', profileRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;
