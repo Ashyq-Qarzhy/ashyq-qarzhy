@@ -1,0 +1,91 @@
+<%- include('partials/header') %>
+<div class="container mt-5">
+    <h1>Profile</h1>
+    <form action="/profile/update" method="POST" enctype="multipart/form-data">
+        <!-- Photo -->
+        <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <div class="mb-3">
+                <% if (user.profile.photo) { %>
+                    <img src="<%= user.profile.photo %>" alt="Profile Photo" class="img-thumbnail" style="width: 150px; height: 150px;">
+                <% } else { %>
+                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                        <span class="text-white">No Photo</span>
+                    </div>
+                <% } %>
+            </div>
+            <input type="file" class="form-control" id="photo" name="photo">
+        </div>
+
+        <!-- Name, Surname, Patronymic -->
+        <div class="row mb-3">
+            <div class="col">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="<%= user.profile.name %>">
+            </div>
+            <div class="col">
+                <label for="surname" class="form-label">Surname</label>
+                <input type="text" class="form-control" id="surname" name="surname" value="<%= user.profile.surname %>">
+            </div>
+            <div class="col">
+                <label for="patronymic" class="form-label">Patronymic</label>
+                <input type="text" class="form-control" id="patronymic" name="patronymic" value="<%= user.profile.patronymic %>">
+            </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="mb-3">
+            <label for="dateOfBirth" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" value="<%= user.profile.dateOfBirth ? user.profile.dateOfBirth.toISOString().split('T')[0] : '' %>">
+        </div>
+
+        <!-- Activity Type and Position -->
+        <div class="row mb-3">
+            <div class="col">
+                <label for="activityType" class="form-label">Type of Activity</label>
+                <input type="text" class="form-control" id="activityType" name="activityType" value="<%= user.profile.activityType %>">
+            </div>
+            <div class="col">
+                <label for="position" class="form-label">Position</label>
+                <input type="text" class="form-control" id="position" name="position" value="<%= user.profile.position %>">
+            </div>
+        </div>
+
+        <!-- Email (Read-only) -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" readonly>
+        </div>
+
+        <!-- IIN -->
+        <div class="mb-3">
+            <label for="iin" class="form-label">IIN</label>
+            <input type="text" class="form-control" id="iin" name="iin" value="<%= user.profile.iin %>" pattern="\d{12}" title="IIN must be 12 digits">
+        </div>
+
+        <!-- Address -->
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" value="<%= user.profile.address %>">
+        </div>
+
+        <!-- Phone Number -->
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="<%= user.profile.phoneNumber %>">
+        </div>
+
+        <!-- Role -->
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role">
+                <option value="citizen" <%= user.profile.role === 'citizen' ? 'selected' : '' %>>Citizen</option>
+                <option value="government" <%= user.profile.role === 'government' ? 'selected' : '' %>>Government</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+<%- include('partials/footer') %>

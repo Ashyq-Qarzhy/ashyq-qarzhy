@@ -2,7 +2,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const bcrypt = require('bcryptjs'); // Add this line
-
 passport.use(
     new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
         try {
@@ -18,6 +17,7 @@ passport.use(
         }
     })
 );
+
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
